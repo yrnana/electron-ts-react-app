@@ -1,0 +1,105 @@
+{
+	"name": "electron-ts-react-app",
+	"productName": "electron-ts-react-app",
+	"version": "1.0.0",
+	"description": "My Electron application description",
+	"main": ".webpack/main",
+	"scripts": {
+		"start": "electron-forge start",
+		"package": "electron-forge package",
+		"make": "electron-forge make",
+		"publish": "electron-forge publish",
+		"lint": "eslint --ext .ts ."
+	},
+	"keywords": [],
+	"author": {
+		"name": "Yuri Na",
+		"email": "nyryn0945@gmail.com"
+	},
+	"license": "MIT",
+	"config": {
+		"forge": {
+			"packagerConfig": {},
+			"makers": [
+				{
+					"name": "@electron-forge/maker-squirrel",
+					"config": {
+						"name": "electron_ts_react_app"
+					}
+				},
+				{
+					"name": "@electron-forge/maker-zip",
+					"platforms": [
+						"darwin"
+					]
+				},
+				{
+					"name": "@electron-forge/maker-deb",
+					"config": {}
+				},
+				{
+					"name": "@electron-forge/maker-rpm",
+					"config": {}
+				}
+			],
+			"plugins": [
+				[
+					"@electron-forge/plugin-webpack",
+					{
+						"mainConfig": ".config/webpack.main.config.js",
+						"renderer": {
+							"config": ".config/webpack.renderer.config.js",
+							"entryPoints": [
+								{
+									"html": "./src/renderer/index.html",
+									"js": "./src/renderer/index.tsx",
+									"name": "main_window"
+								}
+							]
+						}
+					}
+				]
+			]
+		}
+	},
+	"dependencies": {
+		"@types/react": "^16.9.44",
+		"@types/react-dom": "^16.9.8",
+		"@types/react-router-dom": "^5.1.5",
+		"electron-squirrel-startup": "^1.0.0",
+		"react": "^16.13.1",
+		"react-dom": "^16.13.1",
+		"react-router-dom": "^5.2.0"
+	},
+	"devDependencies": {
+		"@electron-forge/cli": "6.0.0-beta.52",
+		"@electron-forge/maker-deb": "6.0.0-beta.52",
+		"@electron-forge/maker-rpm": "6.0.0-beta.52",
+		"@electron-forge/maker-squirrel": "6.0.0-beta.52",
+		"@electron-forge/maker-zip": "6.0.0-beta.52",
+		"@electron-forge/plugin-webpack": "6.0.0-beta.52",
+		"@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+		"@pmmmwh/react-refresh-webpack-plugin": "^0.4.1",
+		"@typescript-eslint/eslint-plugin": "2.x",
+		"@typescript-eslint/parser": "2.x",
+		"babel-eslint": "10.x",
+		"css-loader": "^3.0.0",
+		"electron": "9.1.2",
+		"eslint": "6.x",
+		"eslint-config-prettier": "^6.11.0",
+		"eslint-config-react-app": "^5.2.1",
+		"eslint-plugin-flowtype": "4.x",
+		"eslint-plugin-import": "2.x",
+		"eslint-plugin-jsx-a11y": "6.x",
+		"eslint-plugin-prettier": "^3.1.4",
+		"eslint-plugin-react": "7.x",
+		"eslint-plugin-react-hooks": "2.x",
+		"fork-ts-checker-webpack-plugin": "^3.1.1",
+		"node-loader": "^0.6.0",
+		"prettier": "^2.0.5",
+		"react-refresh": "^0.8.3",
+		"style-loader": "^0.23.1",
+		"ts-loader": "^6.2.1",
+		"typescript": "^3.7.0"
+	}
+}
