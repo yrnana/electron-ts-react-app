@@ -1,4 +1,7 @@
 import { app, BrowserWindow } from 'electron'
+import SQLite from 'better-sqlite3'
+
+const db = SQLite('data.db')
 
 // declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
@@ -27,6 +30,36 @@ const createWindow = (): void => {
 	if (!app.isPackaged) {
 		mainWindow.webContents.openDevTools()
 	}
+
+	// sqlite db test
+	mainWindow.webContents.once('dom-ready', () => {
+		const tableName = 'cats'
+		const createTable = db.prepare(
+			`CREATE TABLE IF NOT EXISTS ${tableName} (name CHAR(20), age INT)`
+		)
+		createTable.run()
+
+		const insert = db.prepare(
+			`INSERT INTO ${tableName} (name, age) VALUES (@name, @age)`
+		)
+		const insertMany = db.transaction((cats) => {
+			for (const cat of cats) insert.run(cat)
+		})
+
+		const selectAllCats = db.prepare(`SELECT * FROM ${tableName}`)
+		const rows = selectAllCats.all()
+
+		if (!rows.length)
+			insertMany([
+				{ name: 'Joey', age: 2 },
+				{ name: 'Sally', age: 4 },
+				{ name: 'Junior', age: 1 },
+			])
+
+		rows.forEach((row) => {
+			console.log(row)
+		})
+	})
 }
 
 // This method will be called when Electron has finished
